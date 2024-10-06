@@ -22,15 +22,34 @@ for(let i = 0; i < boxes.length; i++) {
         if(this.childNodes.length == 0){
             let cloneEl = el.cloneNode(true);
             this.appendChild(cloneEl);
+
             //computar jogada
             if(player1 == player2) {
                 player1 ++;
+                if(secondPlayer == 'ia-player'){
+                    //funcao para executar jogada
+                    computerPLay();
+                    player2++;
+                }
             } else {
                 player2 ++;
             }
         }
         //checa quem venceu
         checkwinConition()
+    });
+}
+//evento para saber se é 2 player ou IA
+for(let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', (event) => {
+        secondPlayer = event.target.getAttribute('id'); // Aqui usamos event.target
+        for(let j = 0; j < buttons.length; j++) {
+            buttons[j].style.display = 'none';
+        }
+        setTimeout(() => {
+            const container = document.querySelector('#container');
+            container.classList.remove('hide');
+        }, 500)
     });
 }
 
@@ -67,10 +86,10 @@ function checkwinConition() {
         const b3Child = b3.childNodes[0].className;
         if(b1Child == 'x' && b2Child =='x' && b3Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b1Child == 'o' && b2Child =='o' && b3Child == 'o') {
             //o
-           console.log('O venceu')
+            dlecareWinner('o')
 
         }
     }
@@ -81,11 +100,10 @@ function checkwinConition() {
         const b6Child = b6.childNodes[0].className;
         if(b4Child == 'x' && b5Child =='x' && b6Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b4Child == 'o' && b5Child =='o' && b6Child == 'o') {
             //o
-           console.log('O venceu')
-
+            dlecareWinner('o')
         }
     }
 
@@ -95,10 +113,11 @@ function checkwinConition() {
         const b9Child = b9.childNodes[0].className;
         if(b7Child == 'x' && b8Child =='x' && b9Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b7Child == 'o' && b8Child =='o' && b9Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
+
 
         }
     }
@@ -110,10 +129,10 @@ function checkwinConition() {
         const b7Child = b7.childNodes[0].className;
         if(b1Child == 'x' && b4Child =='x' && b7Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b1Child == 'o' && b4Child =='o' && b7Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -123,10 +142,10 @@ function checkwinConition() {
         const b7Child = b7.childNodes[0].className;
         if(b1Child == 'x' && b4Child =='x' && b7Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b1Child == 'o' && b4Child =='o' && b7Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -136,10 +155,10 @@ function checkwinConition() {
         const b8Child = b8.childNodes[0].className;
         if(b2Child == 'x' && b5Child =='x' && b8Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b2Child == 'o' && b5Child =='o' && b8Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -150,10 +169,10 @@ function checkwinConition() {
         const b9Child = b9.childNodes[0].className;
         if(b3Child == 'x' && b6Child =='x' && b9Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b3Child == 'o' && b6Child =='o' && b9Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -165,10 +184,10 @@ function checkwinConition() {
         const b9Child = b9.childNodes[0].className;
         if(b1Child == 'x' && b5Child =='x' && b9Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b1Child == 'o' && b5Child =='o' && b9Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -179,10 +198,10 @@ function checkwinConition() {
         const b7Child = b7.childNodes[0].className;
         if(b3Child == 'x' && b5Child =='x' && b7Child == 'x') {
            //x 
-           console.log('X venceu')
+           dlecareWinner('x')
         } else if(b3Child == 'o' && b5Child =='o' && b7Child == 'o') {
             //o
-           console.log('O venceu')
+           dlecareWinner('o')
 
         }
     }
@@ -197,6 +216,63 @@ function checkwinConition() {
     }
 
     if(count == 9) {
-        console.log('Deu velha')
+        dlecareWinner('Deu velha')
+    }
+}
+
+//Limpa o jogo, delcara o vencedor e atualiza o placar
+function dlecareWinner(winner) {
+    let scorebordX = document.querySelector('#scoreboard-1');
+    let scorebordY = document.querySelector('#scoreboard-2');
+    let msg = '';
+    if (winner == 'x') {
+        scorebordX.textContent = parseInt(scorebordX.textContent) + 1;
+        msg = 'Jogado 1 venceu!';
+    } else if (winner == 'y') {
+        scorebordY.textContent = parseInt(scorebordY.textContent) + 1;
+        msg = 'Jogado 2 venceu!';
+    } else {
+        msg = 'Deu velha!';
+    }
+
+     //exibir menssagem
+    messageText.innerHTML = msg;
+    message.classList.remove('hide');
+
+    //esconde msg
+    setTimeout(() => {
+        message.classList.add('hide');
+    }, 3000)
+
+    //zera jogada
+    player1 = 0
+    player2 = 0;
+
+    //remove x e O
+    const boxesToRemove = document.querySelectorAll(".box div");
+
+    for(let i = 0; i < boxesToRemove.length; i++){
+        boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+    }
+}
+
+function computerPLay() {
+    let emptyBoxes = [];
+
+    // Verifica todas as caixas e adiciona as vazias à lista
+    for (let i = 0; i < boxes.length; i++) {
+        if (boxes[i].childNodes.length == 0) {
+            emptyBoxes.push(boxes[i]);
+        }
+    }
+
+    // Escolhe uma caixa vazia aleatória
+    if (emptyBoxes.length > 0) {
+        let randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+        let chosenBox = emptyBoxes[randomIndex];
+
+        // Clona o elemento "O" e o adiciona à caixa escolhida
+        let cloneO = o.cloneNode(true);
+        chosenBox.appendChild(cloneO);
     }
 }
